@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,5 +53,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
     errorDetail.setDevelopermessage(request.getDescription(true));
 
     return new ResponseEntity<>(errorDetail, headers, HttpStatus.BAD_REQUEST);
+  }
+
+  @Override
+  protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request)
+  {
+    ErrorDetail errorDetail = new ErrorDetail();
+
+    errorDetail.setTimestamp(new Date().getTime());
+    errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
+    errorDetail.setTitle(ex.getRequestURL());
+    errorDetail.setDetail(request.getDescription(true));
+    errorDetail.setDevelopermessage("Rest Handler Not Found (check for valid URI)");
+
+    return new ResponseEntity<>(errorDetail, headers, HttpStatus.NOT_FOUND);
   }
 }
