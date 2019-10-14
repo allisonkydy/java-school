@@ -17,7 +17,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 
             <!-- rollover daily -->
-            <fileNamePattern>/tmp/var/myTomcatLog.%d{yyyy-MM-dd HH}.%i.txt</fileNamePattern>
+            <fileNamePattern>/tmp/var/logs/lambdajx/myTomcatLog.%d{yyyy-MM-dd HH}.%i.txt</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
 
             <!-- keep 30 days' worth of history -->
