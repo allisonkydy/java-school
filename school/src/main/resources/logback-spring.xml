@@ -30,18 +30,22 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger name="org.apache.catalina" level="INFO" additivity="false">
+    <logger name="org.apache.catalina" level="OFF" additivity="false">
         <appender-ref ref="TOMCAT"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="org.apache.coyote" level="INFO" additivity="false">
+    <logger name="org.apache.coyote" level="OFF" additivity="false">
         <appender-ref ref="TOMCAT"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="org.apache.tomcat" level="INFO" additivity="false">
+    <logger name="org.apache.tomcat" level="OFF" additivity="false">
         <appender-ref ref="TOMCAT"/>
         <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="com.lambdaschool" level="TRACE" additivity="false">
+        <appender-ref ref="STDOUT" />
     </logger>
 </configuration>
