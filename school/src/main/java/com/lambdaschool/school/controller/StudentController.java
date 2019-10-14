@@ -30,7 +30,7 @@ public class StudentController
         return new ResponseEntity<>(myStudents, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/Student/{StudentId}",
+    @GetMapping(value = "/student/{StudentId}",
                 produces = {"application/json"})
     public ResponseEntity<?> getStudentById(
             @PathVariable
@@ -51,7 +51,7 @@ public class StudentController
     }
 
 
-    @PostMapping(value = "/Student",
+    @PostMapping(value = "/student",
                  consumes = {"application/json"},
                  produces = {"application/json"})
     public ResponseEntity<?> addNewStudent(@Valid
@@ -69,7 +69,7 @@ public class StudentController
     }
 
 
-    @PutMapping(value = "/Student/{Studentid}")
+    @PutMapping(value = "/student/{Studentid}")
     public ResponseEntity<?> updateStudent(
             @RequestBody
                     Student updateStudent,
@@ -81,7 +81,7 @@ public class StudentController
     }
 
 
-    @DeleteMapping("/Student/{Studentid}")
+    @DeleteMapping("/student/{Studentid}")
     public ResponseEntity<?> deleteStudentById(
             @PathVariable
                     long Studentid)
