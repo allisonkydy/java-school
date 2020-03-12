@@ -2,6 +2,8 @@ package com.lambdaschool.school.controller;
 
 import com.lambdaschool.school.model.Student;
 import com.lambdaschool.school.service.StudentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -21,21 +24,25 @@ public class StudentController
     @Autowired
     private StudentService studentService;
 
+    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
+
     // Please note there is no way to add students to course yet!
 
     @GetMapping(value = "/students", produces = {"application/json"})
-    public ResponseEntity<?> listAllStudents()
+    public ResponseEntity<?> listAllStudents(HttpServletRequest request)
     {
+        logger.info(request.getMethod() + " " + request.getRequestURI() + " just accessed!");
+
         List<Student> myStudents = studentService.findAll();
         return new ResponseEntity<>(myStudents, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/Student/{StudentId}",
+    @GetMapping(value = "/student/{StudentId}",
                 produces = {"application/json"})
-    public ResponseEntity<?> getStudentById(
-            @PathVariable
-                    Long StudentId)
+    public ResponseEntity<?> getStudentById(@PathVariable Long StudentId, HttpServletRequest request)
     {
+        logger.info(request.getMethod() + " " + request.getRequestURI() + " just accessed! Parameter: " + StudentId);
+
         Student r = studentService.findStudentById(StudentId);
         return new ResponseEntity<>(r, HttpStatus.OK);
     }
@@ -43,21 +50,25 @@ public class StudentController
 
     @GetMapping(value = "/student/namelike/{name}",
                 produces = {"application/json"})
-    public ResponseEntity<?> getStudentByNameContaining(
-            @PathVariable String name)
+    public ResponseEntity<?> getStudentByNameContaining(@PathVariable String name, HttpServletRequest request)
     {
+        logger.info(request.getMethod() + " " + request.getRequestURI() + " just accessed! Parameter: " + name);
+
         List<Student> myStudents = studentService.findStudentByNameLike(name);
         return new ResponseEntity<>(myStudents, HttpStatus.OK);
     }
 
 
-    @PostMapping(value = "/Student",
+    @PostMapping(value = "/student",
                  consumes = {"application/json"},
                  produces = {"application/json"})
     public ResponseEntity<?> addNewStudent(@Valid
                                            @RequestBody
-                                                   Student newStudent) throws URISyntaxException
+                                                   Student newStudent,
+                                           HttpServletRequest request) throws URISyntaxException
     {
+        logger.info(request.getMethod() + " " + request.getRequestURI() + " just accessed!");
+
         newStudent = studentService.save(newStudent);
 
         // set the location header for the newly created resource
@@ -69,23 +80,29 @@ public class StudentController
     }
 
 
-    @PutMapping(value = "/Student/{Studentid}")
+    @PutMapping(value = "/student/{Studentid}")
     public ResponseEntity<?> updateStudent(
             @RequestBody
                     Student updateStudent,
             @PathVariable
-                    long Studentid)
+                    long Studentid,
+            HttpServletRequest request)
     {
+        logger.info(request.getMethod() + " " + request.getRequestURI() + " just accessed! Parameter: " + Studentid);
+
         studentService.update(updateStudent, Studentid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
-    @DeleteMapping("/Student/{Studentid}")
+    @DeleteMapping("/student/{Studentid}")
     public ResponseEntity<?> deleteStudentById(
             @PathVariable
-                    long Studentid)
+                    long Studentid,
+            HttpServletRequest request)
     {
+        logger.info(request.getMethod() + " " + request.getRequestURI() + " just accessed! Parameter: " + Studentid);
+
         studentService.delete(Studentid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
